@@ -1,7 +1,9 @@
+import next from "next";
 import Link from "next/link";
 import React from "react";
 
 export default function About() {
+  throw new Error("heheheh");
   return (
     <div>
       <Link href="/">
