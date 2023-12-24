@@ -3,6 +3,7 @@ import getUserPosts from "@/lib/getUserPost";
 import { Suspense } from "react";
 import UserPosts from "./UserPosts";
 import { Metadata } from "next";
+import getAllUsers from "@/lib/getAllUsers";
 
 type Params = {
   params: {
@@ -18,8 +19,6 @@ export async function generateMetadata({params:{userId}}:Params):Promise<Metadat
         title: user.name,
         description: `This is the page of ${user?.name}`
     }
-
-
 }
 
 export default async function UserPage({ params: { userId } }: Params) {
@@ -38,4 +37,18 @@ const user = await userData;
       </Suspense>
     </>
   );
+}
+
+
+export async function generateStaticParams() {
+  const usersData: Promise<User[]> = getAllUsers();
+  const users = await usersData;
+
+
+  return users.map(user => (
+    {
+      userId: user?.id.toString()
+    }
+  ))
+
 }
